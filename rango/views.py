@@ -7,7 +7,6 @@ from rango.models import Page
 from rango.models import Question
 from rango.forms import CategoryForm
 from rango.forms import PageForm
-from django.shortcuts import redirect
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -42,7 +41,7 @@ def results(request, question_id):
     response = "You're looking at the results of question %s."
     return HttpResponse(response % question_id)
 
-def vote(request, question_id):
+def vote(request, question_id) -> HttpResponse:
     return HttpResponse("You're voting on question %s." % question_id)
 
 def add_category(request):
@@ -52,7 +51,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
         else:
             print(form.errors)
     return render(request, 'rango/add_category.html', {'form':form})
@@ -64,7 +63,7 @@ def add_page(request, category_name_slug):
         category = None
 
     if category is None:
-        return redirect('/rango/')
+        return redirect(reverse('rango:index'))
 
     form = PageForm()
 
