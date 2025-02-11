@@ -20,6 +20,8 @@ def index(request):
 
 # Create your views here.
 def about(request):
+    print(request.method)
+    print(request.user)
     return render(request, 'rango/about.html')
 
 def show_category(request, category_name_slug):
@@ -33,16 +35,6 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
         context_dict['pages'] = None
     return render(request, 'rango/category.html', context=context_dict)
-
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
-
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-def vote(request, question_id) -> HttpResponse:
-    return HttpResponse("You're voting on question %s." % question_id)
 
 def add_category(request):
     form = CategoryForm()
