@@ -1,6 +1,9 @@
 from django.contrib import admin
 from rango.models import Category, Page
+from rango.models import UserProfile
 from .models import Question, Choice
+
+admin.site.register(UserProfile)
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
